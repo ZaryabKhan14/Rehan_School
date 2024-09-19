@@ -1,0 +1,2 @@
+* * * * *  /var/www/html/rehan_school/artisan schedule:run >> /dev/null 2>&1
+
