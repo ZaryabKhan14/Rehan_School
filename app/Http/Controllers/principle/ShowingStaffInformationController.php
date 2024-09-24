@@ -6,10 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Staff_Information;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class ShowingStaffInformationController extends Controller
 {
     public function showing_staff_information(){
-        $staff = Staff_Information::all();
+        $user = Auth::user();
+        $campus = $user->campus;
+        $staff = Staff_Information::where('campus',$campus)->get();
         return view('principle.showing_staff_information',compact('staff'));
     }
 

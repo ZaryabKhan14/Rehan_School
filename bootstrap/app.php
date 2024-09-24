@@ -16,16 +16,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->use([
 
         //  App\Http\Middleware\RoleMiddleware::class,
-
+        
     ]);
     
+    $middleware->alias(['role' => \App\Http\Middleware\RoleMiddleware::class]);
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->command('app:generate-monthly-fee-vouchers')->monthlyOn(1, '00:00');
+        $schedule->command('generate:monthly-fee-vouchers')->everyMinute();
 
     })
     ->create();

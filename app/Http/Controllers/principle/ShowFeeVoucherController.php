@@ -15,7 +15,7 @@ class ShowFeeVoucherController extends Controller
     public function show_student_fee_voucher(){
         $user = Auth::user();
         $campus = $user->campus;
-        $fetch_user_fee = FeeVocher::where('student_campus',$campus)->get();
+        $fetch_user_fee = FeeVocher::where('student_campus',$campus)->get()->groupBy('student_id');
         return view('principle.show_student_fee_voucher',compact('fetch_user_fee'));
     }
 

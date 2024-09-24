@@ -53,6 +53,9 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 
+
+Route::middleware(['role:admin'])->group(function () {
+
 Route::get('/admin_dashboard',[AdminDashboardController::class,'admin'])->name('admin');
 Route::post('/admin_add_user',[AddUserController::class,'add_user'])->name('add_user');
 Route::get('/add_user_form',[AddUserController::class,'add_user_form'])->name('add_user_form');
@@ -74,7 +77,7 @@ Route::get('/admin/show_student_attendences', [ShowStudentAttendenceController::
 Route::get('/admin/delete_student_information/{id}', [StudentINformationController::class, 'delete_student_information'])->name('delete_student_information');
 Route::get('/admin/edit/student/information/{id}', [StudentINformationController::class, 'edit_student_information'])->name('edit_student_information');
 Route::post('/admin/update/student/information/{id}', [StudentINformationController::class, 'update_student_information'])->name('update_student_information');
-Route::get('admin/generate-student-pdf', [StudentINformationController::class, 'generateStudentinformationPDF'])->name('generateStudentinformationPDF');
+Route::get('admin/generate-studentpdf', [StudentINformationController::class, 'generateStudentinformationPDF'])->name('generateStudentinformationPDF');
 Route::get('admin/student/fee', [FeeStudentController::class, 'admin_Student_fee'])->name('admin_Student_fee');
 Route::get('admin/student/fee/form/{id}', [FeeStudentController::class, 'add_student_form_admin'])->name('add_student_form_admin');
 Route::post('admin/add/student/fee', [FeeStudentController::class, 'add_student_fee_admin'])->name('add_student_fee_admin');
@@ -94,9 +97,10 @@ Route::get('/admin/edit_staff_information/{id}', [ShowStaffInformationController
 Route::post('/admin/edit_staff_information/{id}', [ShowStaffInformationController::class, 'update_staff_information'])->name('update_staff_information');
 Route::get('/admin/admission_freeze_information', [ShowingAdmissionFreezeController::class, 'show_admission_freeze_detail'])->name('show_admission_freeze_detail');
 Route::post('/admission-freeze/status/{id}', [ShowingAdmissionFreezeController::class, 'admission_freeze_status'])->name('admission_freeze_status');
+});
 
 
-
+Route::middleware(['role:teacher'])->group(function () {
 
     Route::get('/teacher_dashboard',[TeacherDashboardController::class,'teacher'])->name('teacher');
 
@@ -108,8 +112,9 @@ Route::get('/teacher/attendance/present/{student_id}', [AddStudentAttendenceCont
 Route::get('/teacher/attendance/absent/{student_id}', [AddStudentAttendenceController::class, 'mark_absent'])->name('mark_absent');
 Route::get('/teacher/show_student_attendence', [DisplayStudentAttendenceController::class, 'display_student_attendence'])->name('display_student_attendence');
 
+});
 
-
+Route::middleware(['role:principle'])->group(function () {
 
 Route::get('/principle_dashboard',[PrincipleDashboardController::class,'principle'])->name('principle');
 Route::get('principle/add_user',[UserAddController::class,'principle_adding_user_form'])->name('principle_adding_user_form');
@@ -148,11 +153,12 @@ Route::get('/principle/edit_form_staff_information/{id}', [ShowingStaffInformati
 Route::post('/principle/editing_staff_information/{id}', [ShowingStaffInformationController::class, 'updating_staff_information'])->name('updating_staff_information');
 Route::post('/principle/admission-freeze/status/{id}', [AdmissionFreezeDetailsController::class, 'admission_freeze_statuss'])->name('admission_freeze_statuss');
 Route::get('/principle/admission_freeze_details', [AdmissionFreezeDetailsController::class, 'showing_admission_freeze_detail'])->name('showing_admission_freeze_detail');
+});
 
 
 
 
-
+Route::middleware(['role:student'])->group(function () {
 
 Route::get('/student_dashboard', [StudentDashboardController::class, 'student'])->name('student_dashboard');
 Route::get('/show/student/information',[ShowStudentInformationController::class,'show_student_info'])->name('show_student_info');
@@ -163,7 +169,7 @@ Route::get('/payment-return', [StripeController::class, 'paymentReturn'])->name(
 Route::get('student/freeze_form', [FreezeFormController::class, 'freeze_form'])->name('freeze_form');
 Route::post('student/adding/freeze_informaton', [FreezeFormController::class, 'add_freeze_form_details'])->name('add_freeze_form_details');
 Route::get('student/show/freeze/details', [ShowAdmissionFreezeController::class, 'show_admission_freeze_details'])->name('show_admission_freeze_details');
-
+});
 
 });
    
@@ -173,9 +179,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    // Route::get('/dashboard', function () {
-    //     return view('dashboard');
-    // })->name('dashboard');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
     Route::get('/redirect',[DashboardController::class,'redirect'])->name('redirect');
 
 

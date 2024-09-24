@@ -15,7 +15,7 @@
             <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                 <i class="fa fa-user-shield fa-3x text-primary"></i>
                 <div class="ms-3">
-                    <p class="mb-2">Total Principle</p>
+                    <p class="mb-2">Total Principal</p>
                     <h6 class="mb-0">{{$total_principle}}</h6>
                 </div>
             </div>
